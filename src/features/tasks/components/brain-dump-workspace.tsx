@@ -74,32 +74,6 @@ export function BrainDumpWorkspace({
     deleteTask,
   } = useTasks(storage ? { storage } : undefined);
 
-  // #region agent log
-  useEffect(() => {
-    fetch("http://127.0.0.1:7738/ingest/df421fff-4d13-49c4-87c9-1a281e8a9d23", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-Debug-Session-Id": "2fe47e",
-      },
-      body: JSON.stringify({
-        sessionId: "2fe47e",
-        runId: "pre-fix",
-        hypothesisId: "H1-H5",
-        location: "brain-dump-workspace.tsx:mount",
-        message: "BrainDumpWorkspace mounted; export handler names check",
-        data: {
-          hasHandleExportDump: typeof handleExportDump === "function",
-          hasHandleExportTasks: typeof handleExportTasks === "function",
-          jsxUsesHandleExportDump: true,
-          jsxUsesBareHandleExport: false,
-        },
-        timestamp: Date.now(),
-      }),
-    }).catch(() => {});
-  }, []);
-  // #endregion
-
   useEffect(() => {
     const frame = window.requestAnimationFrame(() => {
       setReferenceDate(getReferenceDate());
