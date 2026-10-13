@@ -1,26 +1,165 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  color-scheme: light;
+  --background: #f5f3ff;
+  --foreground: #1e1b4b;
+  --mt-violet: #6d28d9;
+  --mt-violet-deep: #4c1d95;
+  --mt-lavender: #c4b5fd;
+  --mt-lavender-soft: #ede9fe;
+  --mt-coral: #f43f5e;
+  --mt-mint: #10b981;
+  --mt-sky: #0ea5e9;
+  --mt-cream: #f5f3ff;
+  --mt-ink: #1e1b4b;
+  --mt-muted: #64748b;
+  --mt-surface: #ffffff;
+  --mt-surface-soft: #f8fafc;
+  --mt-panel: #ffffff;
+  --mt-border: rgba(109, 40, 217, 0.14);
+  --mt-ring: color-mix(in oklab, var(--mt-violet) 45%, transparent);
+  --mt-shell-a: color-mix(in oklab, var(--mt-violet) 14%, transparent);
+  --mt-shell-b: color-mix(in oklab, var(--mt-lavender) 22%, transparent);
+  --mt-shell-base: linear-gradient(180deg, #ede9fe 0%, #f5f3ff 40%, #fafafa 100%);
+  --mt-panel-shadow: rgba(76, 29, 149, 0.12);
+  --mt-kpi-from: #ffffff;
+  --mt-kpi-to: #faf5ff;
+  --mt-chip: #047857;
+  --mt-nav: rgba(255, 255, 255, 0.85);
+}
+
+/* Velvet midnight — rich plum, not flat black */
+html.dark {
+  color-scheme: dark;
+  --background: #12091c;
+  --foreground: #f4eefc;
+  --mt-violet: #c4a1ff;
+  --mt-violet-deep: #e9d5ff;
+  --mt-lavender: #a78bfa;
+  --mt-lavender-soft: #2a1848;
+  --mt-coral: #fb7185;
+  --mt-mint: #34d399;
+  --mt-sky: #67e8f9;
+  --mt-cream: #160c24;
+  --mt-ink: #f4eefc;
+  --mt-muted: #b7a8d4;
+  --mt-surface: #1c1230;
+  --mt-surface-soft: #241638;
+  --mt-panel: #1c1230;
+  --mt-border: rgba(196, 161, 255, 0.2);
+  --mt-ring: color-mix(in oklab, var(--mt-violet) 55%, transparent);
+  --mt-shell-a: color-mix(in oklab, #a855f7 26%, transparent);
+  --mt-shell-b: color-mix(in oklab, #f472b6 12%, transparent);
+  --mt-shell-base: linear-gradient(165deg, #1a0b2e 0%, #12081f 45%, #0f1228 100%);
+  --mt-panel-shadow: rgba(0, 0, 0, 0.45);
+  --mt-kpi-from: #241638;
+  --mt-kpi-to: #1c1230;
+  --mt-chip: #6ee7b7;
+  --mt-nav: rgba(18, 9, 28, 0.82);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
+  --color-violet: var(--mt-violet);
+  --color-violet-deep: var(--mt-violet-deep);
+  --color-lavender: var(--mt-lavender);
+  --color-lavender-soft: var(--mt-lavender-soft);
+  --color-coral: var(--mt-coral);
+  --color-mint: var(--mt-mint);
+  --color-sky: var(--mt-sky);
+  --color-cream: var(--mt-cream);
+  --color-ink: var(--mt-ink);
+  --color-muted: var(--mt-muted);
+  --color-surface: var(--mt-surface);
+  --color-surface-soft: var(--mt-surface-soft);
+  --color-border: var(--mt-border);
+  --color-chip: var(--mt-chip);
+  --font-sans: var(--font-plus-jakarta);
+  --font-display: var(--font-outfit);
   --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-plus-jakarta), ui-sans-serif, system-ui, sans-serif;
+}
+
+.mt-app-shell {
+  position: relative;
+  isolation: isolate;
+  min-height: 100%;
+  background:
+    radial-gradient(800px 360px at 10% -10%, var(--mt-shell-a), transparent 60%),
+    radial-gradient(640px 320px at 100% 0%, var(--mt-shell-b), transparent 55%),
+    var(--mt-shell-base);
+}
+
+.mt-panel {
+  border: 1px solid var(--mt-border);
+  background: var(--mt-panel);
+  box-shadow: 0 14px 36px -28px var(--mt-panel-shadow);
+}
+
+.mt-kpi {
+  border: 1px solid var(--mt-border);
+  background: linear-gradient(180deg, var(--mt-kpi-from), var(--mt-kpi-to));
+}
+
+.mt-focus-ring {
+  outline: none;
+}
+
+.mt-focus-ring:focus-visible {
+  outline: 2px solid var(--mt-violet);
+  outline-offset: 2px;
+}
+
+@keyframes mt-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes mt-complete-pop {
+  0% {
+    transform: scale(1);
+  }
+  40% {
+    transform: scale(1.08);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.mt-animate-in {
+  animation: mt-fade-up 360ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.mt-complete-pop {
+  animation: mt-complete-pop 320ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mt-animate-in,
+  .mt-complete-pop {
+    animation: none;
+  }
+
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
 }

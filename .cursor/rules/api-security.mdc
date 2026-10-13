@@ -1,0 +1,20 @@
+
+---
+description: Security and validation requirements for task APIs and Gemini integration
+globs: src/app/api/**/*.ts,src/lib/ai/**/*.ts,src/features/tasks/schemas.ts
+alwaysApply: false
+---
+
+# API and AI Boundaries
+
+- Validate request bodies with Zod before calling external services.
+- Enforce input length, output size, and reasonable suggestion-count limits.
+- Validate Gemini output against the response schema; never trust model output.
+- Return stable, intentional HTTP error responses without exposing stack traces,
+  prompts, secrets, provider internals, or sensitive request data.
+- Keep API keys in server-only environment variables.
+- Handle provider failures, malformed output, timeouts, and rate limits explicitly.
+- Do not silently retry expensive model calls.
+- Keep business logic outside route handlers where appropriate.
+- Mock the provider in tests; do not spend live Gemini quota for routine tests.
+- Add tests for invalid input, malformed model output, provider failure, and success.
