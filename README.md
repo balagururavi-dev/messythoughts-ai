@@ -1,37 +1,81 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# MessyThoughts
 
-## Getting Started
+Turn messy thoughts into task suggestions with Gemini AI — review and accept only what you want saved. Tasks stay in your browser (`localStorage`); nothing is auto-saved.
 
-First, run the development server:
+Built by [Balaguru Ravi](https://www.balagururavi.com).
+
+## Features
+
+- Brain dump → structured AI suggestions (title, description, priority, due date)
+- Edit, accept, or discard each suggestion before it becomes a task
+- Saved-task dashboard with search, filters, edit, complete, and delete
+- Clear / copy / export for the brain dump; copy / export for saved tasks
+- Light and dark themes (preference stored locally)
+- Server-side Gemini extraction with Zod validation and fail-closed parsing
+
+## Stack
+
+- Next.js App Router, React 19, TypeScript
+- Tailwind CSS v4
+- Gemini via `@google/genai`
+- Zod
+- Vitest + React Testing Library
+- Browser `localStorage`
+
+## Getting started
+
+```bash
+npm install
+cp .env.example .env.local
+```
+
+Set credentials in `.env.local`:
+
+```bash
+GEMINI_API_KEY=your_key_here
+# Optional model override (defaults to gemini-3.1-flash-lite)
+# GEMINI_MODEL=
+```
+
+Never expose these as `NEXT_PUBLIC_*` — they must stay server-only.
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Scripts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Command           | Description                |
+| ----------------- | -------------------------- |
+| `npm run dev`     | Start the development server |
+| `npm run build`   | Production build           |
+| `npm run start`   | Serve the production build |
+| `npm run lint`    | Run ESLint                 |
+| `npm test`        | Run unit/UI tests once     |
+| `npm run test:watch` | Vitest watch mode       |
 
-## Learn More
+## Project layout
 
-To learn more about Next.js, take a look at the following resources:
+```
+src/
+  app/                 # App Router pages and API routes
+  components/          # Shared chrome (header, theme, brand)
+  features/tasks/      # Domain UI, schemas, extraction, storage hooks
+  lib/                 # Gemini client, rate limit, theme, storage
+docs/
+  plan.md              # MVP plan and checkpoints
+  current-state.md     # What’s done / next
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Notes
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- Suggestions never become saved tasks until you accept them.
+- Extract API applies best-effort in-memory rate limiting (per serverless isolate, not fleet-wide).
+- See `docs/plan.md` for scope and out-of-scope items.
 
-## Deploy on Vercel
+## Deploy
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-# messythoughts-ai
+1. Set `GEMINI_API_KEY` on the host (e.g. Vercel project env).
+2. Deploy the Next.js app as usual (`npm run build` / Vercel).
